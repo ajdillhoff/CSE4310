@@ -1,7 +1,10 @@
 import sys
 import random
+import argparse
+
 from PySide2 import QtCore, QtWidgets, QtGui
 from skvideo.io import vread
+
 
 class QtDemo(QtWidgets.QWidget):
     def __init__(self, frames):
@@ -15,8 +18,11 @@ class QtDemo(QtWidgets.QWidget):
 
         # Configure image label
         self.img_label = QtWidgets.QLabel(alignment=QtCore.Qt.AlignCenter)
-        h, w, _ = self.frames[0].shape
-        img = QtGui.QImage(self.frames[0], w, h, QtGui.QImage.Format_RGB888)
+        h, w, c = self.frames[0].shape
+        if c == 1:
+            img = QtGui.QImage(self.frames[0], w, h, QtGui.QImage.Format_Grayscale8)
+        else:
+            img = QtGui.QImage(self.frames[0], w, h, QtGui.QImage.Format_RGB888)
         self.img_label.setPixmap(QtGui.QPixmap.fromImage(img))
 
         # Configure slider
@@ -38,26 +44,39 @@ class QtDemo(QtWidgets.QWidget):
     def on_click(self):
         if self.current_frame == self.frames.shape[0]-1:
             return
-        h, w, _ = self.frames[self.current_frame].shape
-        img = QtGui.QImage(self.frames[self.current_frame], w, h, QtGui.QImage.Format_RGB888)
+        h, w, c = self.frames[self.current_frame].shape
+        if c == 1:
+            img = QtGui.QImage(self.frames[self.current_frame], w, h, QtGui.QImage.Format_Grayscale8)
+        else:
+            img = QtGui.QImage(self.frames[self.current_frame], w, h, QtGui.QImage.Format_RGB888)
         self.img_label.setPixmap(QtGui.QPixmap.fromImage(img))
         self.current_frame += 1
 
     @QtCore.Slot()
     def on_move(self, pos):
         self.current_frame = pos
-        h, w, _ = self.frames[self.current_frame].shape
-        img = QtGui.QImage(self.frames[self.current_frame], w, h, QtGui.QImage.Format_RGB888)
+        h, w, c = self.frames[self.current_frame].shape
+        if c == 1:
+            img = QtGui.QImage(self.frames[self.current_frame], w, h, QtGui.QImage.Format_Grayscale8)
+        else:
+            img = QtGui.QImage(self.frames[self.current_frame], w, h, QtGui.QImage.Format_RGB888)
         self.img_label.setPixmap(QtGui.QPixmap.fromImage(img))
 
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 2:
-        print("USAGE: qtdemo.py PATH_TO_VIDEO")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Demo for loading video with Qt5.")
+    parser.add_argument("video_path", metavar='PATH_TO_VIDEO', type=str)
+    parser.add_argument("--num_frames", metavar='n', type=int, default=-1)
+    parser.add_argument("--grey", metavar='True/False', type=str, default=False)
+    args = parser.parse_args()
 
-    frames = vread(sys.argv[1])
+    num_frames = args.num_frames
+
+    if num_frames > 0:
+        frames = vread(args.video_path, num_frames=num_frames, as_grey=args.grey)
+    else:
+        frames = vread(args.video_path, as_grey=args.grey)
 
     app = QtWidgets.QApplication([])
 
