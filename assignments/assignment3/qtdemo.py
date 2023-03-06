@@ -1,6 +1,9 @@
 import sys
 import random
 import argparse
+import numpy
+numpy.float = numpy.float64
+numpy.int = numpy.int_
 
 from PySide2 import QtCore, QtWidgets, QtGui
 from skvideo.io import vread
