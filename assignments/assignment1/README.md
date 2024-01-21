@@ -8,12 +8,12 @@ The first part of the assignment focuses on two common color spaces: RGB (red-gr
 
 ### RGB to HSV
 
-Create a function that converts an RGB image represented as a `numpy` array into HSV format. The general process for this is covered in the [lecture notes](https://dillhoffaj.utasites.cloud/posts/color/).
+Create a function that converts an RGB image represented as a `numpy` array into HSV format. The general process for this is covered in the [lecture notes](https://ajdillhoff.github.io/notes/color/).
 
 ### HSV to RGB
 
 We will also need a function to revert the conversion. Create a function that converts an HSV image represented as a `numpy` array into RGB format.
-The process for this is also covered in the [lecture notes](https://dillhoffaj.utasites.cloud/posts/color/).
+The process for this is also covered in the [lecture notes](https://ajdillhoff.github.io/notes/color/).
 
 ### Optimization
 
