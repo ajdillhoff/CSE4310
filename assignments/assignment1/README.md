@@ -15,6 +15,12 @@ Create a function that converts an RGB image represented as a `numpy` array into
 We will also need a function to revert the conversion. Create a function that converts an HSV image represented as a `numpy` array into RGB format.
 The process for this is also covered in the [lecture notes](https://dillhoffaj.utasites.cloud/posts/color/).
 
+### Optimization
+
+The conversion functions you wrote above are likely slow. This is because they are implemented using `for` loops. This is not ideal for Python. Instead, we can use `numpy` to vectorize the operations. This will allow us to perform the operations on the entire image at once. This is much faster than looping over each pixel.
+
+Ensure that both of your functions are implemented without using `for` loops to scan over the image. You can use `numpy` to vectorize the operations.
+
 ### Testing
 
 To verify that your solution works, create a program that accepts the following input from command line:
