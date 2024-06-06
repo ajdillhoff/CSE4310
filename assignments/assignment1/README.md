@@ -38,7 +38,9 @@ Save your code as `color_space_test.py`.
 
 Save all of the functions below in a file named `img_transforms.py`.
 
-1. Create a function that will generate a random square crop of an image given the following inputs:
+### Random Cropping
+
+Create a function that will generate a random square crop of an image given the following inputs:
 - An image as a `numpy` array.
 - An integer reflecting the size.
 
@@ -52,7 +54,9 @@ The function should be implemented as `random_crop(img, size)`.
 Figure 1: Original image on right followed by several crops. Source: torchvision
 </p>
 
-2. Patch extraction is a useful preprocessing step in machine learning. Following the instructions [given here](https://twitter.com/MishaLaskin/status/1478500251376009220), create a function that returns $n^2$ non-overlapping patches given an input image as a `numpy` array and an integer `n`.
+### Patch Extraction
+
+Patch extraction is a useful preprocessing step in machine learning. Following the instructions [given here](https://ajdillhoff.github.io/notes/patch_extraction/), create a function that returns $n^2$ non-overlapping patches given an input image as a `numpy` array and an integer `n`.
 
 You may assume that the input image is square. The function should be implemented as `extract_patch(img, num_patches)`.
 
@@ -62,7 +66,9 @@ You may assume that the input image is square. The function should be implemente
 Figure 2: Image patches extracted from original image (left).
 </p>
 
-3. Create a resizing function that resizes an image given an input image as a `numpy` array and an integer representing the desired scale factor. The image should be resized using nearest neighbor interpolation.
+### Resizing
+
+Create a resizing function that resizes an image given an input image as a `numpy` array and an integer representing the desired scale factor. The image should be resized using nearest neighbor interpolation.
 
 The function should be implemented as `resize_img(img, factor)`.
 
@@ -72,7 +78,9 @@ The function should be implemented as `resize_img(img, factor)`.
 Figure 3: Image resized with different scale factors. Source: torchvision
 </p>
 
-4. Create a function which randomly perturbs the HSV values on an input image by an amount no greater than the given input value. This should use your code from the first part of the assignment to modify the HSV channels.
+### Color Jitter
+
+Create a function which randomly perturbs the HSV values on an input image by an amount no greater than the given input value. This should use your code from the first part of the assignment to modify the HSV channels.
 
 The function should be implemented as `color_jitter(img, hue, saturation, value)`.
 
@@ -84,8 +92,12 @@ Figure 4: Image randomly perturbed with random HSV changes. Source: torchvision
 
 ## Image Pyramids
 
-Create a function that takes an image as a `numpy` array as well as an integer representing the height of the image pyramid. The function should create an image pyramid of resized copies of the original image based on the input integer. You should use your own version of a resize function from the first section.
+Create a function that takes an image as a `numpy` array as well as an integer representing the height of the image pyramid. The function should create an image pyramid of resized copies of the original image based on the input integer. Feel free to use a third-party library like `PIL` to handle the resizing.
 
 For example, if the pyramid height is 4 and the input image is $256 \times 256$, your program should create 3 resized copies in powers of 2. That is, it will create a $128 \times 128$, $64 \times 64$, and $32 \times 32$ version. Your program should save the resized copies with the same name as the original file with the scale factor appended at the end. For example, if the input file name is `img.png`, the created images would be `img_2x.png`, `img_4x.png`, and `img_8x.png`.
 
 Save your code as `create_img_pyramid.py`.
+
+## Submission
+
+Submit all of your code via Canvas in a zip file. You should provide a script that demonstrates the functionality of each of the functions you wrote. This script should be well-documented and easy to follow.

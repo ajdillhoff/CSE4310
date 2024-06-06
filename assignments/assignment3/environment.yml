@@ -1,8 +1,0 @@
-name: cse4310a2
-channels:
-  - defaults
-dependencies:
-  - conda-forge::pyside2
-  - numpy
-  - scikit-video
-prefix: /home/alex/anaconda3/envs/cse4310a2
