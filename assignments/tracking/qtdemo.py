@@ -5,7 +5,7 @@ import numpy
 numpy.float = numpy.float64
 numpy.int = numpy.int_
 
-from PySide2 import QtCore, QtWidgets, QtGui
+from PySide6 import QtCore, QtWidgets, QtGui
 from skvideo.io import vread
 
 
@@ -13,11 +13,11 @@ class QtDemo(QtWidgets.QWidget):
     def __init__(self, frames):
         super().__init__()
 
+        self.button = QtWidgets.QPushButton("Next Frame")
+        print("Help")
         self.frames = frames
-
         self.current_frame = 0
 
-        self.button = QtWidgets.QPushButton("Next Frame")
 
         # Configure image label
         self.img_label = QtWidgets.QLabel(alignment=QtCore.Qt.AlignCenter)
@@ -27,6 +27,8 @@ class QtDemo(QtWidgets.QWidget):
         else:
             img = QtGui.QImage(self.frames[0], w, h, QtGui.QImage.Format_RGB888)
         self.img_label.setPixmap(QtGui.QPixmap.fromImage(img))
+
+        print("[INFO] Image shape: ", self.frames[0].shape)
 
         # Configure slider
         self.frame_slider = QtWidgets.QSlider(QtCore.Qt.Orientation.Horizontal)
@@ -80,6 +82,8 @@ if __name__ == "__main__":
         frames = vread(args.video_path, num_frames=num_frames, as_grey=args.grey)
     else:
         frames = vread(args.video_path, as_grey=args.grey)
+
+    print("Loaded video with shape:", frames.shape)
 
     app = QtWidgets.QApplication([])
 

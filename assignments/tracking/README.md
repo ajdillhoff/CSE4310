@@ -60,7 +60,7 @@ Establish a set of filter parameters following [this article](https://ajdillhoff
 
 # Tracking Multiple Objects
 
-Create a GUI program that loads a video given a filename from command line. A GUI demo using `pyside2` is included in this repository. Feel free to use that as a starting point to integrate your object tracker into. You can view the documentation for `pyside2` [here](https://doc.qt.io/qtforpython-5/)
+Create a GUI program that loads a video given a filename from command line. A GUI demo using `pyside6` is included in this repository. Feel free to use that as a starting point to integrate your object tracker into. You can view the documentation for `pyside6` [here](https://doc.qt.io/qtforpython-6/)
 
 Once the video is loaded, initialize your object tracker and update it as the user changes the frame. This is where keeping a history of tracking objects will be useful. If the user slides back to a frame already visited, the model should re-initialize at that frame. Add a few buttons to the UI to allow the user to jump forward and backward by 60 frames instead of 1 frame.
 
