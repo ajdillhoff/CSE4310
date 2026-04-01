@@ -1,17 +1,11 @@
 [project]
-name = "cse4310"
+name = "tracking"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "matplotlib>=3.10.8",
     "numpy>=2.4.2",
-    "pillow>=12.1.0",
-    "scikit-image>=0.26.0",
-]
-
-[tool.uv.workspace]
-members = [
-    "assignments/tracking",
+    "pyside6>=6.11.0",
+    "scikit-video>=1.1.11",
 ]

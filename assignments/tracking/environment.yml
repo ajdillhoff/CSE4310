@@ -1,8 +1,0 @@
-name: cse4310tracking
-channels:
-  - defaults
-dependencies:
-  - conda-forge::pyside6
-  - numpy
-  - scikit-video
-prefix: /home/alex/anaconda3/envs/cse4310tracking

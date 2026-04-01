@@ -1,8 +1,8 @@
 This assignment covers multiple object detection and tracking with Kalman filters.
 
-An `environment.yml` file has been included for easier setup. To create the environment, run the following command:
+A `pyproject.toml` file has been included for easier setup. To create the environment, run the following command:
 ```bash
-conda env create -f environment.yml
+uv sync
 ```
 
 # Detecting Motion
@@ -12,23 +12,25 @@ To be able to track a moving object, it needs to be in motion. Using Kalman filt
 Instead, two differences are evaluated: one between the frames at $t$ and $t − 1$ as well as the difference between frames $t − 1$ and $t − 2$. The detected motion frame will be the minimum of these two. An easy way to filter out noise is to set a threshold $\tau$ . This will serve as a hyperparameter of the detector. If the pixel values in the motion frame are less than $\tau$, they are set to 0.
 
 <figure>
-  <img src="figures/thresh_frame.jpg" alt="Threshold image"/>
+  <img src="figures/thresh_frame.png" alt="Threshold image"/>
   <figcaption>Figure 1: Detected pixels of the threshold frame.</figcaption>
 </figure>
 
 As seen above, the resulting pixels do not represent a whole object. Ideally, the detected blobs of motion would be fully connected. It is simple enough to modify the image by performing dilation on the pixels. This can be done via `scikit-image` using the `dilation` function. The figure below shows the resulting image after dilating each pixel using a $9 \times 9$ window.
 
 <figure>
-  <img src="figures/dilated_frame.jpg" alt="Dilated image"/>
+  <img src="figures/dilated_frame.png" alt="Dilated image"/>
   <figcaption>Figure 2: The motion blobs after dilation.</figcaption>
 </figure>
 
-The resulting blobs are now individual object candidates. To track these individually, assign a class value to each pixel belonging to the same blob. This can be accomplished using a connected components algorithm similar to the approach used when connected low and high confidence edges in Canny edge detection. Conveniently, `scikit-image` implements this with the `label` function. An example of its usage can be found [here](https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_regionprops.html).
+This is a little better, but there are sill blobs that are not fully connected. You may have to play around with the size of the dilation window to get better results. You could also filter out blobs based on their shape. If the goal is to detect a circular tennis ball, then blobs that are too rectangular can be filtered out.
+
+In any case, the resulting blobs are now individual object candidates. To track these individually, assign a class value to each pixel belonging to the same blob. This can be accomplished using a connected components algorithm similar to the approach used when connected low and high confidence edges in Canny edge detection. Conveniently, `scikit-image` implements this with the `label` function. An example of its usage can be found [here](https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_regionprops.html).
 
 In this example, `regionprops` is used to compute the centroid and bounding box of each blob. These properties can be used to filter out blobs that do not meet a size threshold. **Figure 3** shows the resulting candidates with their bounding boxes.
 
 <figure>
-  <img src="figures/bbox_color.jpg" alt="Bounding boxes visualized."/>
+  <img src="figures/bbox_color.png" alt="Bounding boxes visualized."/>
   <figcaption>Figure 3: Bounding boxes draw on object candidates.</figcaption>
 </figure>
 
@@ -58,10 +60,12 @@ Create a class which implements a basic Kalman filter. Along with initialization
 
 Establish a set of filter parameters following [this article](https://ajdillhoff.github.io/notes/tracking/). Each motion object will have its own instance of this class to track the current state. Additionally, keep a list of the object’s previous positions for visualization purposes.
 
-# Tracking Multiple Objects
+# Tracking the Tennis Ball
 
 Create a GUI program that loads a video given a filename from command line. A GUI demo using `pyside6` is included in this repository. Feel free to use that as a starting point to integrate your object tracker into. You can view the documentation for `pyside6` [here](https://doc.qt.io/qtforpython-6/)
 
-Once the video is loaded, initialize your object tracker and update it as the user changes the frame. This is where keeping a history of tracking objects will be useful. If the user slides back to a frame already visited, the model should re-initialize at that frame. Add a few buttons to the UI to allow the user to jump forward and backward by 60 frames instead of 1 frame.
+Before visualizing, you should process the entire video and store the tracking results. This will allow you to visualize the results at different speeds without having to reprocess the video each time. The tracking results should include the position of the tennis ball(s) at each frame as well as a unique ID for each object.
 
-When drawing the tracked objects, show a trail of detections behind each object as it is tracked.
+When visualizing, draw a bounding box around each tracked ball. You can also draw a line showing the trajectory of the object over time. Your program should report two key statistics:
+1. How many times a tennis ball was hit along with the frame number of each hit.
+2. How many times the tennis ball bounced on the ground.
